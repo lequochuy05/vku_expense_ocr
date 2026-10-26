@@ -1,0 +1,78 @@
+name: vku_expense_ocr
+description: VKU Expense AI - Ứng dụng quản lý chi tiêu thông minh với OCR và AI
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Navigation
+  go_router: ^14.6.2
+
+  # Database
+  sqflite: ^2.3.3
+  path: ^1.9.0
+  path_provider: ^2.1.3
+
+  # Image & OCR
+  image_picker: ^1.1.2
+  google_mlkit_text_recognition: ^0.13.1
+
+  # HTTP & API
+  http: ^1.2.2
+
+  # Environment config (dev only - không bảo vệ bí mật)
+  flutter_dotenv: ^5.1.0
+
+  # Formatting
+  intl: '>=0.19.0 <1.0.0'
+
+  # UI
+  fl_chart: ^0.69.0
+  cupertino_icons: ^1.0.8
+  cached_network_image: ^3.4.1
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+  # Connectivity
+  connectivity_plus: ^6.1.0
+
+  # Shared Preferences (cho settings)
+  shared_preferences: ^2.3.2
+
+  # UUID generation
+  uuid: ^4.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  
+  # Code generation
+  build_runner: ^2.4.12
+  riverpod_generator: ^2.4.3
+
+  # Testing & Mocking
+  mocktail: ^1.0.4
+  sqflite_common_ffi: ^2.3.3
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - .env

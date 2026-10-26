@@ -1,0 +1,93 @@
+# ==============================================================================
+# Flutter / Dart .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Secrets (CRITICAL: Do not leak API Keys)
+# ------------------------------------------------------------------------------
+.env
+*.env
+!.env.example
+
+# Android signing keys & credentials
+*.keystore
+*.jks
+key.properties
+google-services.json
+
+# ------------------------------------------------------------------------------
+# Flutter / Dart Build Artifacts
+# ------------------------------------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+/coverage/
+
+# Documentation & Symbolication
+**/doc/api/
+app.*.symbols
+app.*.map.json
+
+# ------------------------------------------------------------------------------
+# Android Native Build Artifacts
+# ------------------------------------------------------------------------------
+**/android/.gradle/
+**/android/app/build/
+**/android/captures/
+**/android/local.properties
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# ------------------------------------------------------------------------------
+# iOS Native Build Artifacts
+# ------------------------------------------------------------------------------
+**/ios/.generated/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/ServiceDefinitions.json
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Podfile.lock
+
+# ------------------------------------------------------------------------------
+# IDE & Editor Configurations
+# ------------------------------------------------------------------------------
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# ------------------------------------------------------------------------------
+# System & Temporary Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+*.log
+
+# Antigravity & Agent Scratch Files
+.gemini/
+.agents/
+.history/
