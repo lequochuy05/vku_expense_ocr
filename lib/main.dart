@@ -13,7 +13,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Khởi tạo locale tiếng Việt cho intl (ngày tháng, số)
-  await initializeDateFormatting('vi', null);
+  try {
+    await initializeDateFormatting('vi', null);
+  } catch (e) {
+    debugPrint('[Config] initializeDateFormatting error: $e');
+  }
 
   // Load .env nếu có (chỉ cho development)
   // CẢNH BÁO: .env trong APK không bảo vệ bí mật thật sự

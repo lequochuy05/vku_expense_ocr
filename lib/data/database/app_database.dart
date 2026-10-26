@@ -46,8 +46,12 @@ class AppDatabase {
   /// Bật WAL mode để cải thiện hiệu suất đọc/ghi đồng thời
   /// Trên Android SQLite, PRAGMA journal_mode trả về kết quả nên phải dùng rawQuery
   Future<void> _onConfigure(Database db) async {
-    await db.rawQuery('PRAGMA journal_mode=WAL');
-    await db.execute('PRAGMA foreign_keys=ON');
+    try {
+      await db.rawQuery('PRAGMA journal_mode=WAL');
+    } catch (_) {}
+    try {
+      await db.execute('PRAGMA foreign_keys=ON');
+    } catch (_) {}
   }
 
   /// Tạo schema ban đầu (version 1)

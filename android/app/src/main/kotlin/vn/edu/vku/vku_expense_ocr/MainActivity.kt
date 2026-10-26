@@ -71,8 +71,12 @@ class MainActivity : FlutterActivity() {
      * Trả về giá trị 0-100 hoặc -1 nếu không đọc được.
      */
     private fun getBatteryLevel(): Int {
-        val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-        return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        return try {
+            val batteryManager = getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
+            batteryManager?.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) ?: -1
+        } catch (e: Exception) {
+            -1
+        }
     }
 
     /**
@@ -80,25 +84,34 @@ class MainActivity : FlutterActivity() {
      * Trả về Map<String, String> để Dart nhận trực tiếp.
      */
     private fun getDeviceInfo(): Map<String, String> {
-        // Lấy thông tin RAM tổng cộng
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val memInfo = ActivityManager.MemoryInfo()
-        activityManager.getMemoryInfo(memInfo)
-        val totalRamMB = memInfo.totalMem / (1024 * 1024)
-        val availRamMB = memInfo.availMem / (1024 * 1024)
+        return try {
+            val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+            val memInfo = ActivityManager.MemoryInfo()
+            activityManager?.getMemoryInfo(memInfo)
+            val totalRamMB = memInfo.totalMem / (1024 * 1024)
+            val availRamMB = memInfo.availMem / (1024 * 1024)
 
-        return mapOf(
-            "model" to Build.MODEL,                           // Ví dụ: "Pixel 7"
-            "manufacturer" to Build.MANUFACTURER,              // Ví dụ: "Google"
-            "brand" to Build.BRAND,                            // Ví dụ: "google"
-            "androidVersion" to Build.VERSION.RELEASE,         // Ví dụ: "14"
-            "sdkInt" to Build.VERSION.SDK_INT.toString(),       // Ví dụ: "34"
-            "product" to Build.PRODUCT,                         // Ví dụ: "panther"
-            "hardware" to Build.HARDWARE,                       // Ví dụ: "tensor"
-            "totalRamMB" to totalRamMB.toString(),              // RAM tổng (MB)
-            "availRamMB" to availRamMB.toString(),              // RAM khả dụng (MB)
-            "securityPatch" to (Build.VERSION.SECURITY_PATCH ?: "N/A"),
-        )
+            mapOf(
+                "model" to (Build.MODEL ?: "Unknown"),
+                "manufacturer" to (Build.MANUFACTURER ?: "Unknown"),
+                "brand" to (Build.BRAND ?: "Unknown"),
+                "androidVersion" to (Build.VERSION.RELEASE ?: "Unknown"),
+                "sdkInt" to Build.VERSION.SDK_INT.toString(),
+                "product" to (Build.PRODUCT ?: "Unknown"),
+                "hardware" to (Build.HARDWARE ?: "Unknown"),
+                "totalRamMB" to totalRamMB.toString(),
+                "availRamMB" to availRamMB.toString(),
+                "securityPatch" to (Build.VERSION.SECURITY_PATCH ?: "N/A"),
+            )
+        } catch (e: Exception) {
+            mapOf(
+                "model" to (Build.MODEL ?: "Unknown"),
+                "manufacturer" to (Build.MANUFACTURER ?: "Unknown"),
+                "brand" to (Build.BRAND ?: "Unknown"),
+                "androidVersion" to (Build.VERSION.RELEASE ?: "Unknown"),
+                "sdkInt" to Build.VERSION.SDK_INT.toString(),
+            )
+        }
     }
 
     /**
@@ -108,24 +121,28 @@ class MainActivity : FlutterActivity() {
      */
     @Suppress("DEPRECATION")
     private fun triggerHapticFeedback() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // API 31+ — sử dụng VibratorManager
-            val vibratorManager =
-                getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            val vibrator = vibratorManager.defaultVibrator
-            vibrator.vibrate(
-                VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
-            )
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // API 26-30 — VibrationEffect
-            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            vibrator.vibrate(
-                VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
-            )
-        } else {
-            // API < 26 — deprecated vibrate(long)
-            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            vibrator.vibrate(50)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                // API 31+ — sử dụng VibratorManager
+                val vibratorManager =
+                    getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
+                val vibrator = vibratorManager?.defaultVibrator
+                vibrator?.vibrate(
+                    VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
+                )
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // API 26-30 — VibrationEffect
+                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                vibrator?.vibrate(
+                    VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
+                )
+            } else {
+                // API < 26 — deprecated vibrate(long)
+                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                vibrator?.vibrate(50)
+            }
+        } catch (e: Exception) {
+            // Ignore haptic errors on restricted/budget devices
         }
     }
 }
