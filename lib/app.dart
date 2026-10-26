@@ -64,8 +64,8 @@ class _VkuExpenseAppState extends ConsumerState<VkuExpenseApp> {
       themeMode: themeMode,
       routerConfig: router,
       // Locale tiếng Việt
-      locale: const Locale('vi', 'VN'),
-      supportedLocales: const [Locale('vi', 'VN'), Locale('en', 'US')],
+      locale: const Locale('vi'),
+      supportedLocales: const [Locale('vi'), Locale('en')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
